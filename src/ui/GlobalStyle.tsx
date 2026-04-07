@@ -1,3 +1,4 @@
+import Borders from "open-props/src/borders";
 import Fonts from "open-props/src/fonts";
 import { createGlobalStyle, css } from "styled-components";
 import "./init.css";
@@ -19,6 +20,15 @@ const defaults = css`
     font-family: ${Fonts["--font-system-ui"]};
     color: ${theme["text-1"]};
     background: ${theme["surface-1"]};
+  }
+
+  table {
+    border-radius: ${Borders["--radius-2"]};
+  }
+
+  #root {
+    display: grid;
+    place-content: center;
   }
 `;
 

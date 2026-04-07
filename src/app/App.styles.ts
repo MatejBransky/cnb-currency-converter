@@ -4,12 +4,13 @@ import styled from "styled-components";
 
 export const PageLayout = styled.div`
   display: grid;
-  place-items: center;
+  grid-template-columns: clamp(23rem, 90vw, 40rem);
   gap: ${Sizes["--size-2"]};
-  padding: ${Sizes["--size-2"]};
+  padding: ${Sizes["--size-fluid-1"]};
 `;
 
 export const PageHeader = styled.header`
   font-size: ${Fonts["--font-size-5"]};
   font-weight: ${Fonts["--font-weight-2"]};
+  padding-top: ${Sizes["--size-1"]};
 `;

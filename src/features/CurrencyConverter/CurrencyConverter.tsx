@@ -32,7 +32,7 @@ export const CurrencyConverter = () => {
       <S.Fieldset>
         <legend>From</legend>
 
-        <S.Field>
+        <S.Field $area="amount">
           <S.Label htmlFor="from-amount">Amount</S.Label>
           <S.Input
             id="from-amount"
@@ -46,7 +46,7 @@ export const CurrencyConverter = () => {
           />
         </S.Field>
 
-        <S.Field>
+        <S.Field $area="currency">
           <S.Label as="span" id="from-currency-label">
             Currency
           </S.Label>
@@ -59,7 +59,7 @@ export const CurrencyConverter = () => {
       <S.Fieldset>
         <legend>To</legend>
 
-        <S.Field>
+        <S.Field $area="amount">
           <S.Label htmlFor="to-amount">Amount</S.Label>
           <S.Output
             id="to-amount"
@@ -70,7 +70,7 @@ export const CurrencyConverter = () => {
           </S.Output>
         </S.Field>
 
-        <S.Field>
+        <S.Field $area="currency">
           <S.Label htmlFor="to-currency">Currency</S.Label>
           <S.Select
             id="to-currency"
@@ -86,22 +86,24 @@ export const CurrencyConverter = () => {
               </option>
             ))}
           </S.Select>
-
-          <S.Description id="to-amount-meta">
-            {exchangeRate.country} - {exchangeRate.currency}
-          </S.Description>
         </S.Field>
+
+        <S.Description id="to-amount-meta">
+          {exchangeRate.country} - {exchangeRate.currency}
+        </S.Description>
       </S.Fieldset>
 
       <S.ExchangeRateMeta>
         <span>
-          Exchange rate{" "}
+          Exchange rate
           <mark>
             {exchangeRate.amount} {exchangeRate.code} = {exchangeRate.rate} CZK
           </mark>
         </span>
 
-        <time>{data.declaredAt.toLocaleString("en-US")}</time>
+        <time title="Exchange rate last update">
+          {data.declaredAt.toLocaleString("en-US")}
+        </time>
       </S.ExchangeRateMeta>
     </S.Form>
   );
