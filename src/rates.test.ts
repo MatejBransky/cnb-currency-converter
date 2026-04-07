@@ -73,8 +73,29 @@ Brazil|real|1|BRL|4.109`),
     );
 
     const res = await edgeFunction(new Request("https://example.com"), mockCtx);
-    const headers = res.headers;
 
+    const data = await res.json();
+    expect(data).toEqual({
+      declaredAt: "2026-04-02",
+      rows: [
+        {
+          amount: 1,
+          code: "AUD",
+          country: "Australia",
+          currency: "dollar",
+          rate: 14.633,
+        },
+        {
+          amount: 1,
+          code: "BRL",
+          country: "Brazil",
+          currency: "real",
+          rate: 4.109,
+        },
+      ],
+    });
+
+    const headers = res.headers;
     expect(res.status).toBe(200);
     expect(headers.get("Content-Type")).toBe("application/json");
     expect(headers.get("Access-Control-Allow-Origin")).toBe(mockCtx.site.url);

@@ -1,4 +1,5 @@
 import { type Config, type Context } from "@netlify/edge-functions";
+import { CnbRatesParser } from "../api/CnbRatesParser.ts";
 
 export default async (_request: Request, ctx: Context) => {
   const cnbUrl = Netlify.env.get("CNB_RATES_URL");
@@ -23,8 +24,17 @@ export default async (_request: Request, ctx: Context) => {
     }
 
     const rawData = await response.text();
+    const parsedResult = CnbRatesParser.safeParse(rawData);
 
-    return new Response(rawData, {
+    if (parsedResult.error) {
+      console.error(
+        "Error parsing CNB rates:",
+        JSON.stringify(parsedResult.error.issues, null, 2),
+      );
+      return new Response(`Error parsing CNB rates.`, { status: 500 });
+    }
+
+    return new Response(JSON.stringify(parsedResult.data), {
       status: 200,
       headers: {
         ...baseHeaders,
