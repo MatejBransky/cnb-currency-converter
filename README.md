@@ -2,7 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/38346b95-fa47-47d6-b65e-d802d30f5c4f/deploy-status)](https://app.netlify.com/projects/currency-converter-cnb/deploys)
 
-A simple React application that converts CZK to foreign currencies using the latest exchange rates from the Czech National Bank (CNB).
+A simple React application that converts CZK to foreign currencies using [the latest exchange rates from the Czech National Bank (CNB)](https://www.cnb.cz/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing/daily.txt).
 
 The app fetches daily exchange rate data, parses it, and provides a clean UI for browsing rates and converting amounts.
 
@@ -24,7 +24,7 @@ Netlify: [currency-converter-cnb.netlify.app](https://currency-converter-cnb.net
 
 The CNB endpoint has several practical limitations:
 
-- No CORS support
+- Wrong CORS header
 - Non-JSON (TXT, CSV-like) format
 - Fixed cache TTL (24h), which does not reflect real update time (~14:30 on working days)
 
@@ -35,8 +35,6 @@ A Netlify Edge Function is used to:
 - Proxy the CNB API (CORS workaround)
 - Transform TXT data into structured JSON
 - Validate data using Zod schemas
-
-This keeps the frontend clean and focused on UI and domain logic.
 
 ### Caching strategy
 
