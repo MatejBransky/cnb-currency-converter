@@ -1,6 +1,7 @@
 import { type Config, type Context } from "@netlify/edge-functions";
 import "temporal-polyfill/global";
 import { CnbRatesParser } from "../api/CnbRatesParser.ts";
+import { getCacheDuration } from "../api/cache.ts";
 
 export default async (_request: Request, ctx: Context) => {
   const cnbUrl = Netlify.env.get("CNB_RATES_URL");
@@ -35,13 +36,15 @@ export default async (_request: Request, ctx: Context) => {
       return new Response(`Error parsing CNB rates.`, { status: 500 });
     }
 
+    const cacheTtl = getCacheDuration(parsedResult.data.declaredAt);
+
     return new Response(JSON.stringify(parsedResult.data), {
       status: 200,
       headers: {
         ...baseHeaders,
         "Content-Type": "application/json",
         // docs: https://docs.netlify.com/build/caching/caching-overview
-        "Netlify-CDN-Cache-Control": `public, durable, max-age=300, stale-while-revalidate=60`,
+        "Netlify-CDN-Cache-Control": `public, durable, max-age=${cacheTtl.total({ unit: "seconds" })}, stale-while-revalidate=60`,
       },
     });
   } catch (error) {
