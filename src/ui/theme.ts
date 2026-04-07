@@ -1,5 +1,5 @@
 import Colors from "open-props/src/colors";
-import { createTheme } from "../libs/createTheme";
+import { createTheme } from "./createTheme";
 
 export const { theme, register } = createTheme({
   light: {

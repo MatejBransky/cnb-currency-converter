@@ -1,11 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import { fixture } from "../../test/mocks/fixture";
+import { TestProviders } from "../../test/TestProviders";
 import { ExchangeRateList } from "./ExchangeRateList";
 
 describe("<ExchangeRateList />", () => {
   it("renders basic rate info", async () => {
-    const screen = await render(<ExchangeRateList items={fixture.rows} />);
+    const screen = await render(
+      <TestProviders>
+        <ExchangeRateList />
+      </TestProviders>,
+    );
+
+    await expect
+      .element(screen.getByTestId("exchange-rate-list"))
+      .toBeVisible();
 
     const [headRowGroup, bodyRowGroup] = screen.getByRole("rowgroup").all();
     const [currencyColumn, rateColumn] = headRowGroup

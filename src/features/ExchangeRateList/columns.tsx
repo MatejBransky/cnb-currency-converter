@@ -1,6 +1,13 @@
-import type { Column } from "../../libs/Column";
 import type { ExchangeRate } from "../../model/ExchangeRate";
 import * as S from "./columns.styles";
+
+import type { FunctionComponent } from "react";
+
+export interface Column<R> {
+  name: string;
+  renderHeader: FunctionComponent;
+  renderCell: FunctionComponent<{ row: R }>;
+}
 
 export const columns: Array<Column<ExchangeRate>> = [
   {

@@ -19,7 +19,7 @@ export default defineConfig({
       },
       {
         test: {
-          include: ["**/*.browser.{test,spec}.tsx"],
+          include: ["**/*.{browser,smoke}.{test,spec}.tsx"],
           name: "browser",
           browser: {
             enabled: true,

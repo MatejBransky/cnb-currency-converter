@@ -1,11 +1,8 @@
-import type { ExchangeRate } from "../../model/ExchangeRate";
+import { useExchangeRates } from "../../api/useExchangeRates";
 import { columns } from "./columns";
 
-interface ExchangeRateListProps {
-  items: ExchangeRate[];
-}
-
-export const ExchangeRateList = (props: ExchangeRateListProps) => {
+export const ExchangeRateList = () => {
+  const { data } = useExchangeRates();
   return (
     <table data-testid="exchange-rate-list">
       <caption>Currency List</caption>
@@ -21,7 +18,7 @@ export const ExchangeRateList = (props: ExchangeRateListProps) => {
       </thead>
 
       <tbody>
-        {props.items.map((row) => (
+        {data.rows.map((row) => (
           <tr key={row.code}>
             {columns.map((column) => (
               <td key={column.name}>
