@@ -28,6 +28,28 @@ The CNB endpoint has several practical limitations:
 - Non-JSON (TXT, CSV-like) format
 - Fixed cache TTL (24h), which does not reflect real update time (~14:30 on working days)
 
+### Edge proxy & data transformation
+
+A Netlify Edge Function is used to:
+
+- Proxy the CNB API (CORS workaround)
+- Transform TXT data into structured JSON
+- Validate data using Zod schemas
+
+This keeps the frontend clean and focused on UI and domain logic.
+
+### Caching strategy
+
+The CNB API uses a static 24h cache TTL, which can lead to stale data if cached before/after the daily update (~14:30).
+
+Simple approach:
+
+- Short static TTL (e.g. 5 minutes)
+
+Advanced improvement:
+
+- Dynamic TTL based on expected next CNB update time
+
 ## Getting Started
 
 ```bash
