@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useExchangeRates } from "../../api/useExchangeRates";
 import { AmountInputSchema, convertToCurrency } from "./form";
+import * as S from "./CurrencyConverter.styles";
 
 export const CurrencyConverter = () => {
   const { data } = useExchangeRates();
@@ -27,39 +28,81 @@ export const CurrencyConverter = () => {
     : "--";
 
   return (
-    <form>
-      <label>
-        Amount
-        <input
-          name="amount"
-          value={state.amount}
-          onChange={(event) =>
-            setState((prev) => ({ ...prev, amount: event.target.value }))
-          }
-        />
-      </label>
+    <S.Form>
+      <S.Fieldset>
+        <legend>From</legend>
 
-      <label>
-        Currency
-        <select
-          name="currency"
-          value={state.currency}
-          onChange={(event) =>
-            setState((prev) => ({ ...prev, currency: event.target.value }))
-          }
-        >
-          {data.rows.map((currency) => (
-            <option key={currency.code} value={currency.code}>
-              {currency.code}
-            </option>
-          ))}
-        </select>
-      </label>
+        <S.Field>
+          <S.Label htmlFor="from-amount">Amount</S.Label>
+          <S.Input
+            id="from-amount"
+            name="amount"
+            placeholder="Enter amount"
+            value={state.amount}
+            onChange={(event) =>
+              setState((prev) => ({ ...prev, amount: event.target.value }))
+            }
+            aria-describedby="from-amount-meta"
+          />
+        </S.Field>
 
-      <label>
-        Result
-        <output>{result}</output>
-      </label>
-    </form>
+        <S.Field>
+          <S.Label as="span" id="from-currency-label">
+            Currency
+          </S.Label>
+          <S.Output aria-labelledby="from-currency-label">CZK</S.Output>
+        </S.Field>
+
+        <S.Description id="from-amount-meta">Czechia - koruna</S.Description>
+      </S.Fieldset>
+
+      <S.Fieldset>
+        <legend>To</legend>
+
+        <S.Field>
+          <S.Label htmlFor="to-amount">Amount</S.Label>
+          <S.Output
+            id="to-amount"
+            aria-live="polite"
+            aria-describedby="to-amount-meta"
+          >
+            {result}
+          </S.Output>
+        </S.Field>
+
+        <S.Field>
+          <S.Label htmlFor="to-currency">Currency</S.Label>
+          <S.Select
+            id="to-currency"
+            name="currency"
+            value={state.currency}
+            onChange={(event) =>
+              setState((prev) => ({ ...prev, currency: event.target.value }))
+            }
+          >
+            {data.rows.map((currency) => (
+              <option key={currency.code} value={currency.code}>
+                {currency.code}
+              </option>
+            ))}
+          </S.Select>
+
+          <S.Description id="to-amount-meta">
+            {exchangeRate.country} - {exchangeRate.currency}
+          </S.Description>
+        </S.Field>
+      </S.Fieldset>
+
+      <S.ExchangeRateMeta>
+        <span>
+          Exchange rate{" "}
+          <mark>
+            {exchangeRate.amount} {exchangeRate.code} = {exchangeRate.rate} CZK
+          </mark>
+        </span>
+
+        <time>{data.declaredAt.toLocaleString("en-US")}</time>
+      </S.ExchangeRateMeta>
+    </S.Form>
   );
 };

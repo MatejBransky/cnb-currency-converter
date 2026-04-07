@@ -11,10 +11,18 @@ describe("<CurrencyConverter />", () => {
       </TestProviders>,
     );
 
-    await screen.getByLabelText("Amount").fill("10");
-    await screen.getByLabelText("Currency").selectOptions(["AUD"]);
+    await screen
+      .getByRole("group", { name: "From" })
+      .getByLabelText("Amount")
+      .fill("10");
+    await screen
+      .getByRole("group", { name: "To" })
+      .getByLabelText("Currency")
+      .selectOptions(["AUD"]);
     await expect
-      .element(screen.getByLabelText("Result"))
+      .element(
+        screen.getByRole("group", { name: "To" }).getByLabelText("Amount"),
+      )
       .toHaveTextContent("0.676");
   });
 });
