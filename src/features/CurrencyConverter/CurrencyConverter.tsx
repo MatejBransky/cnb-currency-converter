@@ -1,7 +1,12 @@
 import { useState } from "react";
+import { NumericFormat, type NumericFormatProps } from "react-number-format";
 import { useExchangeRates } from "../../api/useExchangeRates";
-import { AmountInputSchema, convertToCurrency } from "./form";
 import * as S from "./CurrencyConverter.styles";
+import { convertAmountToCurrency } from "./form";
+
+const numericProps: NumericFormatProps = {
+  thousandSeparator: true,
+};
 
 export const CurrencyConverter = () => {
   const { data } = useExchangeRates();
@@ -18,14 +23,7 @@ export const CurrencyConverter = () => {
     throw new Error("The exchange rate for the selected currency wasn't found");
   }
 
-  const decodedAmountResult = AmountInputSchema.safeDecode(state.amount);
-
-  const result = decodedAmountResult.data
-    ? convertToCurrency({
-        amount: decodedAmountResult.data,
-        rate: exchangeRate.rate / exchangeRate.amount,
-      })
-    : "--";
+  const result = convertAmountToCurrency(state.amount, exchangeRate);
 
   return (
     <S.Form>
@@ -34,13 +32,15 @@ export const CurrencyConverter = () => {
 
         <S.Field $area="amount">
           <S.Label htmlFor="from-amount">Amount</S.Label>
-          <S.Input
+          <NumericFormat
+            {...numericProps}
+            customInput={S.Input}
             id="from-amount"
             name="amount"
             placeholder="Enter amount"
             value={state.amount}
-            onChange={(event) =>
-              setState((prev) => ({ ...prev, amount: event.target.value }))
+            onValueChange={(values) =>
+              setState((prev) => ({ ...prev, amount: values.value }))
             }
             aria-describedby="from-amount-meta"
           />

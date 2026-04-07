@@ -1,6 +1,7 @@
 import z from "zod";
+import type { ExchangeRate } from "../../model/ExchangeRate";
 
-export const AmountInputSchema = z.codec(
+const AmountInputSchema = z.codec(
   z.union([z.literal(""), z.coerce.number<string>()]).pipe(z.coerce.string()),
   z.number().optional(),
   {
@@ -8,15 +9,26 @@ export const AmountInputSchema = z.codec(
     encode: (value) => (value === undefined ? "" : String(value)),
   },
 );
-export type AmountInputSchema = z.input<typeof AmountInputSchema>;
-export type Amount = z.infer<typeof AmountInputSchema>;
 
-export function convertToCurrency({
-  amount,
-  rate,
-}: {
-  amount: number;
-  rate: number;
-}) {
-  return Math.round((amount / rate) * 1000) / 1000;
+const currencyFormatter = Intl.NumberFormat("en-US", {
+  minimumFractionDigits: 3,
+  maximumFractionDigits: 3,
+});
+
+export function convertAmountToCurrency(
+  amountString: string,
+  exchangeRate: ExchangeRate,
+) {
+  const parsedResult = AmountInputSchema.safeDecode(amountString);
+
+  if (parsedResult.error) {
+    console.error("Parsing amount failed.", parsedResult.error.issues);
+    return "--";
+  }
+
+  const amount = parsedResult.data ?? 0;
+
+  return currencyFormatter.format(
+    amount / (exchangeRate.rate / exchangeRate.amount),
+  );
 }
