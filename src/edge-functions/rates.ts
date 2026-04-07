@@ -1,4 +1,5 @@
 import { type Config, type Context } from "@netlify/edge-functions";
+import "temporal-polyfill/global";
 import { CnbRatesParser } from "../api/CnbRatesParser.ts";
 
 export default async (_request: Request, ctx: Context) => {
