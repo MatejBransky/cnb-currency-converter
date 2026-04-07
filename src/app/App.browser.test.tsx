@@ -1,29 +1,9 @@
 import { delay, http, HttpResponse } from "msw";
 import { describe, expect, test } from "vitest";
 import { render } from "vitest-browser-react";
-import type { ExchangeRateFixing } from "../model/ExchangeRateFixing";
+import { fixture } from "../test/mocks/fixture";
 import { worker } from "../test/mocks/worker";
 import { App } from "./App";
-
-const fixture: ExchangeRateFixing = {
-  declaredAt: Temporal.PlainDate.from("2026-04-07"),
-  rows: [
-    {
-      country: "Australia",
-      currency: "dollar",
-      amount: 1,
-      code: "AUD",
-      rate: 14.796,
-    },
-    {
-      country: "USA",
-      currency: "dollar",
-      amount: 1,
-      code: "USD",
-      rate: 21.333,
-    },
-  ],
-};
 
 describe("<App />", () => {
   test("Loading state", async () => {
@@ -51,6 +31,8 @@ describe("<App />", () => {
     worker.use(http.get("/rates", () => HttpResponse.json(fixture)));
 
     const screen = await render(<App />);
-    await expect.element(screen.getByText("Data")).toBeVisible();
+    await expect
+      .element(screen.getByTestId("exchange-rate-list"))
+      .toBeVisible();
   });
 });

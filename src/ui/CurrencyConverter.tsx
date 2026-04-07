@@ -1,5 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getExchangeRates } from "../api/getExchangeRates";
+import { ExchangeRateList } from "./ExchangeRateList/ExchangeRateList";
 
 export const CurrencyConverter = () => {
   const { data } = useSuspenseQuery({
@@ -8,10 +9,7 @@ export const CurrencyConverter = () => {
   });
   return (
     <>
-      <h2>Data</h2>
-      <pre>
-        <code>{JSON.stringify(data, null, 2)}</code>
-      </pre>
+      <ExchangeRateList items={data.rows} />
     </>
   );
 };
