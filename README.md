@@ -18,11 +18,31 @@ This project was created as part of a technical assignment:
 
 Netlify: [currency-converter-cnb.netlify.app](https://currency-converter-cnb.netlify.app)
 
+## Architecture & Key Decisions
+
+### CNB API limitations
+
+The CNB endpoint has several practical limitations:
+
+- No CORS support
+- Non-JSON (TXT, CSV-like) format
+- Fixed cache TTL (24h), which does not reflect real update time (~14:30 on working days)
+
 ## Getting Started
 
 ```bash
 pnpm install
 ```
+
+### Create environment variables
+
+```bash
+cp .env.example .env
+```
+
+Then set the CNB API endpoint:
+`CNB_RATES_URL={CNB-API-endpoint-URL}`.
+The environment variable is used by the Edge Function to fetch CNB data.
 
 ### Development
 

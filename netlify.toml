@@ -1,4 +1,5 @@
 [build]
+  edge_functions = "src/edge-functions"
   command = "vite build"
 
 [dev]
