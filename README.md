@@ -50,6 +50,36 @@ Advanced improvement:
 
 - Dynamic TTL based on expected next CNB update time
 
+## Tech Stack
+
+- React (+ Hooks, Suspense, Error Boundaries)
+- TypeScript
+- TanStack Query (data fetching & caching)
+- Zod (runtime validation)
+- Styled Components
+- Open Props (CSS variables)
+- Temporal API (via polyfill)
+
+Testing:
+
+- Vitest (unit + browser tests)
+- MSW (API mocking)
+
+Infrastructure:
+
+- Netlify (SPA hosting)
+- Netlify Edge Functions (API proxy & transformation)
+
+## Design Notes
+
+This project intentionally explores modern web platform features:
+
+- Customizable `<select>` styling using emerging CSS capabilities
+- Temporal API for date/time handling
+
+Some of these features are not yet fully supported across all browsers.  
+In a production environment, technology choices would be aligned with target browser support requirements.
+
 ## Getting Started
 
 ```bash
