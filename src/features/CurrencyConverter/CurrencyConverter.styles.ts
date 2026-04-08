@@ -27,17 +27,29 @@ export const Label = styled.label`
 const editable = css`
   background-color: ${theme["surface-0"]};
   border: ${Borders["--border-size-1"]} solid ${theme["surface-4"]};
+
+  &::placeholder {
+    font-weight: ${Fonts["--font-weight-4"]};
+    color: ${theme["text-2"]};
+  }
 `;
 
 export const Input = styled.input`
   ${editable}
 `;
 
-export const Output = styled.output`
+export const Output = styled.output<{ "data-result"?: boolean }>`
   padding-block: ${Sizes["--size-1"]};
   padding-inline: ${Sizes["--size-2"]};
   border: ${Borders["--border-size-1"]} dashed ${theme["surface-4"]};
   border-radius: ${Borders["--radius-2"]};
+
+  &[data-result] {
+    color: ${theme["text-highlight"]};
+    font-weight: ${Fonts["--font-weight-6"]};
+    background-color: ${theme["surface-highlight"]};
+    border-style: solid;
+  }
 `;
 
 export const Select = styled.select`
@@ -56,7 +68,8 @@ const DescriptionLayout = styled.div`
   justify-items: start;
   justify-content: space-between;
   gap: ${Sizes["--size-2"]};
-  padding-inline: ${Sizes["--size-1"]};
+  padding-inline-start: ${Sizes["--size-2"]};
+  padding-inline-end: ${Sizes["--size-1"]};
   padding-block: ${Sizes["--size-1"]};
   border: ${Borders["--border-size-1"]} dashed ${theme["surface-4"]};
   border-radius: ${Borders["--radius-2"]};
@@ -114,7 +127,7 @@ export const Field = styled.div<{ $area: "amount" | "currency" }>`
   gap: ${Sizes["--size-1"]};
   grid-area: ${(p) => p.$area};
 
-  *:not(label) {
+  ${Input}, ${Select}, ${Output} {
     font-weight: ${Fonts["--font-weight-5"]};
   }
 `;
@@ -125,7 +138,13 @@ export const ExchangeRateMeta = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: ${Sizes["--size-3"]};
-  color: ${theme["text-2"]};
+  color: ${theme["text-3"]};
+  border: ${Borders["--border-size-1"]} solid ${theme["surface-3"]};
+  font-size: ${Fonts["--font-size-1"]};
+  padding-inline-start: ${Sizes["--size-5"]};
+  padding-inline-end: ${Sizes["--size-3"]};
+  padding-block: ${Sizes["--size-3"]};
+  border-radius: ${Borders["--border-size-3"]};
 
   mark {
     white-space: nowrap;

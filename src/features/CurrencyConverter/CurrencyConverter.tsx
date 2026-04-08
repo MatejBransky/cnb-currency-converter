@@ -68,6 +68,7 @@ export const CurrencyConverter = () => {
             id="to-amount"
             aria-live="polite"
             aria-describedby="to-amount-meta"
+            data-result
           >
             {result}
           </S.Output>
