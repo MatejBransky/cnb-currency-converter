@@ -53,7 +53,10 @@ export const CurrencyConverter = () => {
           <S.Output aria-labelledby="from-currency-label">CZK</S.Output>
         </S.Field>
 
-        <S.Description id="from-amount-meta">Czechia - koruna</S.Description>
+        <S.Description.Layout id="from-amount-meta">
+          <S.Description.Text>Czechia - koruna</S.Description.Text>
+          <S.Description.Flag country="Czechia" />
+        </S.Description.Layout>
       </S.Fieldset>
 
       <S.Fieldset>
@@ -88,9 +91,12 @@ export const CurrencyConverter = () => {
           </S.Select>
         </S.Field>
 
-        <S.Description id="to-amount-meta">
-          {exchangeRate.country} - {exchangeRate.currency}
-        </S.Description>
+        <S.Description.Layout id="to-amount-meta">
+          <S.Description.Text>
+            {exchangeRate.country} - {exchangeRate.currency}
+          </S.Description.Text>
+          <S.Description.Flag country={exchangeRate.country} />
+        </S.Description.Layout>
       </S.Fieldset>
 
       <S.ExchangeRateMeta>

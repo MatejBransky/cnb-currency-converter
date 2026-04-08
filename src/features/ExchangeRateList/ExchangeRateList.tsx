@@ -6,7 +6,7 @@ export const ExchangeRateList = () => {
   const { data } = useExchangeRates();
   return (
     <S.Table data-testid="exchange-rate-list">
-      <caption>Currency List</caption>
+      <caption>Exchange Rates</caption>
 
       <thead>
         <tr>

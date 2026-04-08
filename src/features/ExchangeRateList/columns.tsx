@@ -14,9 +14,12 @@ export const columns: Array<Column<ExchangeRate>> = [
     name: "currency",
     renderHeader: () => <S.CurrencyHeaderCell>Currency</S.CurrencyHeaderCell>,
     renderCell: ({ row }) => (
-      <S.CurrencyCell.Text>
-        {row.country} - {row.currency}
-      </S.CurrencyCell.Text>
+      <S.CurrencyCell.Layout>
+        <S.CurrencyCell.Flag country={row.country} />
+        <S.CurrencyCell.Text>
+          {row.country} - {row.currency}
+        </S.CurrencyCell.Text>
+      </S.CurrencyCell.Layout>
     ),
   },
   {

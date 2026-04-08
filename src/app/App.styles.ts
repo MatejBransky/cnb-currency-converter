@@ -10,7 +10,8 @@ export const PageLayout = styled.div`
 `;
 
 export const PageHeader = styled.header`
+  text-align: center;
   font-size: ${Fonts["--font-size-5"]};
-  font-weight: ${Fonts["--font-weight-2"]};
+  font-weight: ${Fonts["--font-weight-3"]};
   padding-top: ${Sizes["--size-1"]};
 `;

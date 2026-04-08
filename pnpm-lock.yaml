@@ -11,6 +11,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.96.2
         version: 5.96.2(react@19.2.4)
+      country-flag-icons:
+        specifier: ^1.6.15
+        version: 1.6.15
       open-props:
         specifier: ^1.7.23
         version: 1.7.23
@@ -2165,6 +2168,9 @@ packages:
 
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
+
+  country-flag-icons@1.6.15:
+    resolution: {integrity: sha512-92HoA8l6DluEidku8tKBftjuFRj4Rv3zDW1lXxCuNnqAxhUSkvso9gM/Afj4F5BnK+wneHIe3ydI+s+4NA29/Q==}
 
   cpy@11.1.0:
     resolution: {integrity: sha512-QGHetPSSuprVs+lJmMDcivvrBwTKASzXQ5qxFvRC2RFESjjod71bDvFvhxTjDgkNjrrb72AI6JPjfYwxrIy33A==}
@@ -7785,6 +7791,8 @@ snapshots:
       p-event: 6.0.1
 
   core-util-is@1.0.3: {}
+
+  country-flag-icons@1.6.15: {}
 
   cpy@11.1.0:
     dependencies:
