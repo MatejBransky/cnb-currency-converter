@@ -26,7 +26,7 @@ export const CurrencyConverter = () => {
   const result = convertAmountToCurrency(state.amount, exchangeRate);
 
   return (
-    <S.Form>
+    <S.Form onSubmit={(event) => event.preventDefault()}>
       <S.Fieldset>
         <legend>From</legend>
 
