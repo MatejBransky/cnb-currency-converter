@@ -50,7 +50,7 @@ Advanced improvement:
 
 ## Tech Stack
 
-- React (+ Hooks, Suspense, Error Boundaries)
+- React (+ Hooks, Suspense, Error Boundaries, React compiler)
 - TypeScript
 - TanStack Query (data fetching & caching)
 - Zod (runtime validation)
