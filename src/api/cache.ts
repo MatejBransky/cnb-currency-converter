@@ -4,12 +4,12 @@ const UPDATE_TIME = "14:30";
 const WORKDAY_CACHE = { minutes: 5 };
 
 /**
- * Returns the cache duration until the next CNB update.
- * - If declaration date is today → cache until next working day's 14:30
- * - Otherwise → short cache (default 5 minutes) until data is updated
- * - Weekends are skipped (CNB does not update rates)
+ * Returns cache config (TTL and next update time) until the next CNB update.
+ * - If declaration date is today OR weekend → cache until next working day's 14:30
+ * - Otherwise (before 14:30 on a weekday) → cache until today's 14:30
+ * - After 14:30 on a weekday → short cache (5 minutes) until rates are updated
  */
-export function getCacheDuration(declarationDate: Temporal.PlainDate) {
+export function getCacheConfig(declarationDate: Temporal.PlainDate) {
   const now = Temporal.Now.zonedDateTimeISO();
 
   let nextRef = now.withPlainTime(UPDATE_TIME);
@@ -34,7 +34,10 @@ export function getCacheDuration(declarationDate: Temporal.PlainDate) {
     remaining: remainingDuration.toLocaleString("en-US"),
   });
 
-  return remainingDuration;
+  return {
+    ttl: remainingDuration,
+    nextUpdateAt: nextRef,
+  };
 
   function declaredToday() {
     return Temporal.PlainDate.compare(now.toPlainDate(), declarationDate) === 0;

@@ -1,5 +1,5 @@
 import { test, expect, vi } from "vitest";
-import { getCacheDuration } from "./cache";
+import { getCacheConfig } from "./cache";
 
 interface TestCase {
   now: {
@@ -91,10 +91,12 @@ test.suite("getCacheDuration", () => {
           ? nowDate
           : nowDate.subtract({ days: 1 });
 
-        const duration = getCacheDuration(declarationDate);
+        const cacheConfig = getCacheConfig(declarationDate);
         const expected = Temporal.Duration.from(expectedRemaining);
 
-        expect(duration.total("seconds")).toBe(expected.total("seconds"));
+        expect(cacheConfig.ttl.total("seconds")).toBe(
+          expected.total("seconds"),
+        );
       });
     },
   );

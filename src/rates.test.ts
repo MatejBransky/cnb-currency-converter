@@ -76,6 +76,10 @@ Brazil|real|1|BRL|4.109`),
 
     const data = await res.json();
     expect(data).toEqual({
+      meta: {
+        nextUpdateAt: expect.any(String),
+        cacheTtl: expect.any(String),
+      },
       declaredAt: "2026-04-02",
       rows: [
         {
