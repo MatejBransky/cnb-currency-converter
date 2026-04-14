@@ -1,11 +1,17 @@
 import z from "zod";
-import { ExchangeRate } from "./ExchangeRate";
+import { ExchangeRate } from "./ExchangeRate.ts";
+import {
+  TemporalDuration,
+  TemporalInstant,
+  TemporalPlainDate,
+} from "./Temporal.ts";
 
 export const ExchangeRateFixing = z.object({
-  declaredAt: z.union([
-    z.string().transform((d) => Temporal.PlainDate.from(d)),
-    z.instanceof(Temporal.PlainDate),
-  ]),
+  meta: z.object({
+    nextUpdateAt: TemporalInstant,
+    cacheTtl: TemporalDuration,
+  }),
+  declaredAt: TemporalPlainDate,
   rows: z.array(ExchangeRate),
 });
 export type ExchangeRateFixing = z.infer<typeof ExchangeRateFixing>;

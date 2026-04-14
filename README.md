@@ -47,6 +47,17 @@ Simple approach:
 Advanced improvement:
 
 - Dynamic TTL based on expected next CNB update time
+- The response includes cache metadata (`nextUpdateAt`, `cacheTtl`) enabling frontend cache persistence (TanStack Query).
+
+### Type-safe API contract
+
+Zod schemas (`z.codec()`) are shared between the Edge Function (API) and the frontend, providing static contract testing at runtime.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="zod-codec-api-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="zod-codec-api-light.svg">
+  <img alt="Fallback image description" src="zod-codec-api-dark.svg">
+</picture>
 
 ## Tech Stack
 
