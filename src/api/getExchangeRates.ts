@@ -6,5 +6,5 @@ export async function getExchangeRates() {
     throw new Error(`HTTP ${res.status}: ${res.statusText}`);
   }
   const json = await res.json();
-  return ExchangeRateFixing.parse(json);
+  return ExchangeRateFixing.decode(json);
 }

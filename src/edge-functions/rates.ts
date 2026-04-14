@@ -1,7 +1,8 @@
 import { type Config, type Context } from "@netlify/edge-functions";
 import "temporal-polyfill/global";
 import { CnbRatesParser } from "../api/CnbRatesParser.ts";
-import { getCacheDuration } from "../api/cache.ts";
+import { getCacheConfig } from "../api/cache.ts";
+import { ExchangeRateFixing } from "../model/ExchangeRateFixing.ts";
 
 export default async (_request: Request, ctx: Context) => {
   const cnbUrl = Netlify.env.get("CNB_RATES_URL");
@@ -36,17 +37,29 @@ export default async (_request: Request, ctx: Context) => {
       return new Response(`Error parsing CNB rates.`, { status: 500 });
     }
 
-    const cacheTtl = getCacheDuration(parsedResult.data.declaredAt);
+    const cacheConfig = getCacheConfig(parsedResult.data.declaredAt);
 
-    return new Response(JSON.stringify(parsedResult.data), {
-      status: 200,
-      headers: {
-        ...baseHeaders,
-        "Content-Type": "application/json",
-        // docs: https://docs.netlify.com/build/caching/caching-overview
-        "Netlify-CDN-Cache-Control": `public, durable, max-age=${cacheTtl.total({ unit: "seconds" })}, stale-while-revalidate=60`,
+    return new Response(
+      JSON.stringify(
+        ExchangeRateFixing.encode({
+          meta: {
+            nextUpdateAt: cacheConfig.nextUpdateAt.toInstant(),
+            cacheTtl: cacheConfig.ttl,
+          },
+          declaredAt: parsedResult.data.declaredAt,
+          rows: parsedResult.data.rows,
+        }),
+      ),
+      {
+        status: 200,
+        headers: {
+          ...baseHeaders,
+          "Content-Type": "application/json",
+          // docs: https://docs.netlify.com/build/caching/caching-overview
+          "Netlify-CDN-Cache-Control": `public, durable, max-age=${cacheConfig.ttl.total({ unit: "seconds" })}, stale-while-revalidate=60`,
+        },
       },
-    });
+    );
   } catch (error) {
     console.error("Error fetching CNB data:", error);
     return new Response("Error fetching CNB data", { status: 502 });
