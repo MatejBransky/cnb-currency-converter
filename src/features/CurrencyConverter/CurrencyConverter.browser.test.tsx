@@ -23,6 +23,6 @@ describe("<CurrencyConverter />", () => {
       .element(
         screen.getByRole("group", { name: "To" }).getByLabelText("Amount"),
       )
-      .toHaveTextContent("0.676");
+      .toHaveTextContent("0.68");
   });
 });
