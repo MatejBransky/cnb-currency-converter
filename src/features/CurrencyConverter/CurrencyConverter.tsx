@@ -9,7 +9,15 @@ const numericProps: NumericFormatProps = {
 };
 
 export const CurrencyConverter = () => {
-  const { data } = useExchangeRates();
+  const { data, dataUpdatedAt, isStale, fetchStatus } = useExchangeRates();
+  console.log("query", {
+    dataUpdatedAt: new Date(dataUpdatedAt)
+      .toTemporalInstant()
+      .toZonedDateTimeISO("Europe/Prague")
+      .toLocaleString(),
+    isStale,
+    fetchStatus,
+  });
   const [state, setState] = useState({
     amount: "",
     currency: "USD",
