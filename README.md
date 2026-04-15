@@ -38,16 +38,40 @@ A Netlify Edge Function is used to:
 
 ### Caching strategy
 
-The CNB API uses a static 24h cache TTL, which can lead to stale data if cached before/after the daily update (~14:30).
+The CNB API updates exchange rates around 14:30 on working days. The response includes metadata (`nextUpdateAt`) indicating the next scheduled update time.
 
-Simple approach:
+#### Simple approach
 
-- Short static TTL (e.g. 5 minutes)
+Use a short static TTL (e.g., 5 minutes) - suitable for most use cases.
 
-Advanced improvement:
+#### This implementation: multi-layer caching
 
-- Dynamic TTL based on expected next CNB update time
-- The response includes cache metadata (`nextUpdateAt`, `cacheTtl`) enabling frontend cache persistence (TanStack Query).
+**1. Edge Function cache (BE)**
+
+The Edge Function caches responses using Netlify's built-in cache with dynamic TTL from API metadata. Useful across different clients hitting the same endpoint - reduces CNB API calls from your infrastructure.
+
+**2. Frontend cache persistence (FE)**
+
+Query cache survives page reloads and browser restarts via localStorage (TanStack Query persistency). Useful for repeated usage of the application by the same user - no network call needed after first fetch. 
+
+When app is opened with stale cached data (nextUpdateAt in the past), the query automatically refetches fresh data. While the app is open, it also auto-refetches when `nextUpdateAt` arrives - so data stays fresh throughout the day.
+
+Only queries with `meta: { persist: true }` are persisted - this opt-in approach allows selective persistence.
+
+Key files:
+
+- [src/api/client.ts](src/api/client.ts) - QueryClient + Persister setup
+- [src/api/queryPolicy.ts](src/api/queryPolicy.ts) - Dynamic TTL based on `nextUpdateAt`
+- [src/api/useExchangeRates.ts](src/api/useExchangeRates.ts) - Query with metadata
+
+```typescript
+// Example: opt-in persistence
+useQuery({
+  queryKey: ["rates"],
+  queryFn: fetchRates,
+  meta: { persist: true }, // persists to localStorage
+});
+```
 
 ### Type-safe API contract
 
