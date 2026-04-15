@@ -41,7 +41,7 @@ export const IMFFlag3x2 = (props: SVGProps<SVGSVGElement>) => (
     preserveAspectRatio="xMidYMid slice"
     {...props}
   >
-    <path fill="#009edb" fill-rule="evenodd" d="M0 0h1200v800H0z" />
+    <path fill="#009edb" fillRule="evenodd" d="M0 0h1200v800H0z" />
     <path
       id="a"
       fill="#fff"
